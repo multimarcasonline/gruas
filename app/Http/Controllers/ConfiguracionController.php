@@ -101,7 +101,7 @@ class ConfiguracionController extends Controller
         $peso = $request->peso;
         $configuraciones = Configuracion::where('longitud_de_pluma','>=',$longitud)
         ->where('radio','>=',$radio)
-        ->where('peso','>=',$peso)->groupBy('grua')->get();
+        ->where('peso','>=',$peso)->groupBy('grua')->pluck('configuracion','grua');
         // dd($configuraciones);
         // $listado = array();
         // foreach ($configuraciones as $key => $value) {
