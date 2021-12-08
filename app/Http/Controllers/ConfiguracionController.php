@@ -104,7 +104,7 @@ class ConfiguracionController extends Controller
         ->where('peso','>=',$peso)->groupBy('grua')->get();
         $response = [];
         foreach ($configuraciones as $configuracion) {
-                $response =  array_merge($response,[$configuracion->configuracion => $configuracion->grua]);
+                $response =  array_merge($response,[$configuracion->configuracion => str_replace(['Grúa',' '],'',$configuracion->grua)]);
         }
         //dd($response);
 
