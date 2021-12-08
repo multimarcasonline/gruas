@@ -19,3 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('configuracion/search','App\Http\Controllers\ConfiguracionController@configuracionSearch')->name('configuracion.search');
 Route::post('revisar','App\Http\Controllers\ConfiguracionController@revisar')->name('configuracion.search');
+Route::post('configuracion/test','App\Http\Controllers\ConfiguracionController@test')->name('configuracion.test');
+

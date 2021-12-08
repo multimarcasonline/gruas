@@ -101,7 +101,13 @@ class ConfiguracionController extends Controller
         $peso = $request->peso;
         $configuraciones = Configuracion::where('longitud_de_pluma','>=',$longitud)
         ->where('radio','>=',$radio)
-        ->where('peso','>=',$peso)->groupBy('grua')->pluck('configuracion','grua');
+        ->where('peso','>=',$peso)->groupBy('grua')->get();
+        $response = [];
+        foreach ($configuraciones as $configuracion) {
+                $response =  array_merge($response,[$configuracion->configuracion => $configuracion->grua]);
+        }
+        //dd($response);
+
         // dd($configuraciones);
         // $listado = array();
         // foreach ($configuraciones as $key => $value) {
@@ -122,7 +128,27 @@ class ConfiguracionController extends Controller
         // $listado = json_encode($listado, JSON_UNESCAPED_UNICODE);
         // return $listado;
 
-        return json_encode($configuraciones,JSON_UNESCAPED_UNICODE);
+        return json_encode($response,JSON_UNESCAPED_UNICODE);
+    }
+    public function test(Request $request){
+        $longitud = $request->longitud_de_pluma;
+        $radio = $request->radio;
+        $peso = $request->peso;
+        $configuraciones = Configuracion::all();
+        $listado = array();
+        foreach ($configuraciones as $key => $value) {
+            if ($longitud <= $value->longitud_de_pluma && $radio <= $value->radio && $peso <= $value->peso) {
+                $grua = $value->grua;
+                $configuracion = $value->configuracion;
+                if (in_array($grua, $listado)) {
+
+                }else{
+                    $listado = array_merge($listado, array($configuracion => $grua));
+                }
+            }
+        }
+        $listado = json_encode($listado, JSON_UNESCAPED_UNICODE);
+        return $listado;
     }
     public function importForm(Request $request){
         return view('import');
