@@ -101,12 +101,16 @@ class ConfiguracionController extends Controller
         $peso = $request->peso;
         $configuraciones = Configuracion::where('longitud_de_pluma','>=',$longitud)
         ->where('radio','>=',$radio)
-        ->where('peso','>=',$peso)->groupBy('grua')->get();
+        ->where('peso','>=',$peso)->where('configuracion','!=',null)->groupBy('grua')->get();
+       // dd($configuraciones);
         $response = [];
+
         foreach ($configuraciones as $configuracion) {
-                $response =  array_merge($response,[$configuracion->configuracion => str_replace(['Grúa',' '],'',$configuracion->grua)]);
+                array_push($response,[$configuracion->configuracion=>$configuracion->grua]);
+                //$response =  array_merge($response,[$configuracion->configuracion => $configuracion->grua]);
+                //$response[$configuracion->configuracion] = $configuracion->grua;
+                //echo $configuracion->configuracion .'\n';
         }
-        //dd($response);
 
         // dd($configuraciones);
         // $listado = array();
@@ -128,7 +132,8 @@ class ConfiguracionController extends Controller
         // $listado = json_encode($listado, JSON_UNESCAPED_UNICODE);
         // return $listado;
 
-        return json_encode($response,JSON_UNESCAPED_UNICODE);
+        //return json_encode($response,JSON_UNESCAPED_UNICODE);
+        return response()->json($response,200);
     }
     public function test(Request $request){
         $longitud = $request->longitud_de_pluma;
