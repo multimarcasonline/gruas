@@ -106,7 +106,7 @@ class ConfiguracionController extends Controller
         $response = [];
 
         foreach ($configuraciones as $configuracion) {
-                array_push($response,[$configuracion->configuracion=>$configuracion->grua]);
+                array_push($response,[$configuracion->configuracion=>str_replace(['Grúa',' '],'',$configuracion->grua)]);
                 //$response =  array_merge($response,[$configuracion->configuracion => $configuracion->grua]);
                 //$response[$configuracion->configuracion] = $configuracion->grua;
                 //echo $configuracion->configuracion .'\n';
